@@ -24,12 +24,12 @@ Data has been extracted from three main sources: International Monetary Fund, Wo
     - `IMF_GDP_Per_Capita_PPP.xlsx`: https://www.imf.org/external/datamapper/PPPPC@WEO/OEMDC/ADVEC/WEOWORLD
     - `IMF_GDP_Real_Growth.xlsx`: https://www.imf.org/external/datamapper/NGDP_RPCH@WEO/OEMDC/ADVEC/WEOWORLD
 - `Our_World_In_Data/`
-    - `OWID_Annual_Working_Hours_Per_Worker`: https://ourworldindata.org/grapher/annual-working-hours-per-worker
-    - `OWID_Human_Development_Index`: https://ourworldindata.org/grapher/human-development-index?time=2017
-    - `OWID_Total_Tax_Revenues_GDP`: https://ourworldindata.org/grapher/total-tax-revenues-gdp
+    - `OWID_Annual_Working_Hours_Per_Worker.csv`: https://ourworldindata.org/grapher/annual-working-hours-per-worker
+    - `OWID_Human_Development_Index.csv`: https://ourworldindata.org/grapher/human-development-index?time=2017
+    - `OWID_Total_Tax_Revenues_GDP.csv`: https://ourworldindata.org/grapher/total-tax-revenues-gdp
 - `World_Bank/`
-    - `WB_Informal_Economy_Database`: https://www.worldbank.org/en/research/brief/informal-economy-database -> (https://thedocs.worldbank.org/en/doc/37511318c092e6fd4ca3c60f0af0bea3-0350012021/related/informal-economy-database.xlsx)
-    - `WB_Unemployment`: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
+    - `WB_Informal_Economy_Database.xlsx`: https://www.worldbank.org/en/research/brief/informal-economy-database -> (https://thedocs.worldbank.org/en/doc/37511318c092e6fd4ca3c60f0af0bea3-0350012021/related/informal-economy-database.xlsx)
+    - `WB_Unemployment.xlsx`: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
 
 
 **Note:** Some files were modified in order to facilitate or propitiate its utilization. For example, we have copied the content of every `.xls` file and pasted into a `.xlsx` file. That is because package `openpyxl` does not support the `.xls` type. Nonetheless, data was not altered in any way, in any case. Thus, their preprocessing does not affect the outcome sought.
