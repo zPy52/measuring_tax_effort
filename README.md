@@ -20,13 +20,13 @@ The way to install packages in Python is by typing `py -m pip install <package_n
 ## Data sources
 Data has been extracted from three main sources: International Monetary Fund, World Bank and OurWorldInData.org. Links to download pages are linked below (always select the option which downloads full dataset):
 - `International_Monetary_Fund/`
-    - `IMF_GDP_Per_Capita.xlsx`: https://www.imf.org/external/datamapper/PPPPC@WEO/OEMDC/ADVEC/WEOWORLD
-    - `IMF_GDP_Per_Capita_PPP.xlsx`: url
+    - `IMF_GDP_Per_Capita.xlsx`: https://www.imf.org/external/datamapper/NGDPDPC@WEO/OEMDC/ADVEC/WEOWORLD
+    - `IMF_GDP_Per_Capita_PPP.xlsx`: https://www.imf.org/external/datamapper/PPPPC@WEO/OEMDC/ADVEC/WEOWORLD
     - `IMF_GDP_Real_Growth.xlsx`: https://www.imf.org/external/datamapper/NGDP_RPCH@WEO/OEMDC/ADVEC/WEOWORLD
 - `Our_World_In_Data/`
-    - `OWID_Annual_Working_Hours_Per_Worker`: url
-    - `OWID_Human_Development_Index`: url
-    - `OWID_Total_Tax_Revenues_GDP`: url
+    - `OWID_Annual_Working_Hours_Per_Worker`: https://ourworldindata.org/grapher/annual-working-hours-per-worker
+    - `OWID_Human_Development_Index`: https://ourworldindata.org/grapher/human-development-index?time=2017
+    - `OWID_Total_Tax_Revenues_GDP`: https://ourworldindata.org/grapher/total-tax-revenues-gdp
 - `World_Bank/`
     - `WB_Informal_Economy_Database`: https://www.worldbank.org/en/research/brief/informal-economy-database -> (https://thedocs.worldbank.org/en/doc/37511318c092e6fd4ca3c60f0af0bea3-0350012021/related/informal-economy-database.xlsx)
     - `WB_Unemployment`: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
