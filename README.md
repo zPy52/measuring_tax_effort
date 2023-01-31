@@ -22,7 +22,7 @@ Data has been extracted from three main sources: International Monetary Fund, Wo
 - `International_Monetary_Fund/`
     - `IMF_GDP_Per_Capita.xlsx`: https://www.imf.org/external/datamapper/PPPPC@WEO/OEMDC/ADVEC/WEOWORLD
     - `IMF_GDP_Per_Capita_PPP.xlsx`: url
-    - `IMF_GDP_Real_Growth.xlsx`: url
+    - `IMF_GDP_Real_Growth.xlsx`: https://www.imf.org/external/datamapper/NGDP_RPCH@WEO/OEMDC/ADVEC/WEOWORLD
 - `Our_World_In_Data/`
     - `OWID_Annual_Working_Hours_Per_Worker`: url
     - `OWID_Human_Development_Index`: url
