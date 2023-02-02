@@ -27,6 +27,7 @@ Data has been extracted from three main sources: International Monetary Fund, Wo
     - `OWID_Annual_Working_Hours_Per_Worker.csv`: https://ourworldindata.org/grapher/annual-working-hours-per-worker
     - `OWID_Human_Development_Index.csv`: https://ourworldindata.org/grapher/human-development-index?time=2017
     - `OWID_Total_Tax_Revenues_GDP.csv`: https://ourworldindata.org/grapher/total-tax-revenues-gdp
+    - (Pendent) `OWID_Real_GDP_Per_Capita.csv`: https://ourworldindata.org/grapher/real-gdp-per-capita-pennwt?country=SGP~CHE~IRL~LUX~USA~KHM~BGD~BRA~IND~ZAF
 - `World_Bank/`
     - `WB_Informal_Economy_Database.xlsx`: https://www.worldbank.org/en/research/brief/informal-economy-database -> (https://thedocs.worldbank.org/en/doc/37511318c092e6fd4ca3c60f0af0bea3-0350012021/related/informal-economy-database.xlsx)
     - `WB_Unemployment.xlsx`: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
