@@ -74,6 +74,7 @@ for i in indexes:
     dat = main(float(i))
     exponents[i] = (dat[0], dat[1], dat[2])
 
+# Pearson, Spearman and Kendall maximum and minimum values.
 pearson_max = sorted(list(exponents.keys()), key=lambda k: exponents[k][0])[-1]
 spearman_max = sorted(list(exponents.keys()), key=lambda k: exponents[k][1])[-1]
 kendall_max = sorted(list(exponents.keys()), key=lambda k: exponents[k][2])[-1]
@@ -82,6 +83,7 @@ pearson_min = sorted(list(exponents.keys()), key=lambda k: exponents[k][0])[0]
 spearman_min = sorted(list(exponents.keys()), key=lambda k: exponents[k][1])[0]
 kendall_min = sorted(list(exponents.keys()), key=lambda k: exponents[k][2])[0]
 
+# Show every correlation out of the ones before.
 print('Pearson max -> exponent =', pearson_max)
 print('Spearman max -> exponent =', spearman_max)
 print('Kendall max -> exponent =', kendall_max)
