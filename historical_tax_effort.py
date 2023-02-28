@@ -1,3 +1,5 @@
+# Import proper libraries.
+from typing import List, Tuple
 from math import sqrt
 from openpyxl import load_workbook
 from csv import DictReader
@@ -7,28 +9,34 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 
-def find_element_by_year(series, element):
-    for serie in series:
-        if serie[0] == element:
-            return serie[-1]
+# Define a function to find a certain element given.
+def find_element_by_year(series: List[Tuple[int, float]], year: int) -> Tuple[int, float]:
+    for element in series:
+        if element[0] == year:
+            return element[1]
     else:
         return None
 
+# Dictionary to hold every country's data.
 countries = {}
 
+# Series of countries to analyse.
 countries_to_analyse = ('Singapore', 'Ireland', 'Luxembourg', 'Canada', 'Switzerland', 'Korea, Rep.', 
                         'Spain', 'France', 'Italy', 'United Kingdom', 'United States', 'Netherlands', 
                         'Belgium', 'Portugal', 'Greece', 'Japan')
 
-"""
-countries_to_analyse = ('Singapore', 'Ireland', 'Luxembourg', 'Switzerland', 'Korea, Rep.',
-                            'Bangladesh', 'South Africa', 'Brazil', 'India', 'Cambodia')
-#"""
 
+# These are the low-effort, rich nations and high-effort, poor nations.
+"""countries_to_analyse = ('Singapore', 'Ireland', 'Luxembourg', 'Switzerland', 'Korea, Rep.',
+                            'Bangladesh', 'South Africa', 'Brazil', 'India', 'Cambodia')"""
+
+
+# Set a default's dictionary structure inside 'countries' to save pertinent data.
 for country_name in countries_to_analyse:
     countries[country_name] = {'tax_burden': [], 'unemployment': [], 'gdp_ppp': []}
 
 ### Tax burdens ###
+# Load tax burden data into the 'countries' dictionary.
 with open('datasets/Our_World_In_Data/OWID_Total_Tax_Revenues_GDP.csv', 'r') as file:
     data = DictReader(file)
 
@@ -43,6 +51,7 @@ with open('datasets/Our_World_In_Data/OWID_Total_Tax_Revenues_GDP.csv', 'r') as 
             ))
 
 ### Unemployment rates ###
+# Load unemployment rates data into the 'countries' dictionary.
 wb = load_workbook('datasets/World_Bank/WB_Unemployment.xlsx')
 
 ws = wb.active
@@ -72,6 +81,7 @@ for row in range(1, ws.max_row + 1):
 wb.close()
 
 ### GDPs Per Capita (PPP) ###
+# Load GDPs per capita (PPP) data into the 'countries' dictionary.
 wb = load_workbook('datasets/International_Monetary_Fund/IMF_GDP_Per_Capita_PPP.xlsx')
 
 ws = wb.active
@@ -102,6 +112,8 @@ for row in range(1, ws.max_row + 1):
 wb.close()
 
 ### Building Missing Values ###
+#  Define a constant PHI with the golden number and a lambda function to calculate
+# the tax effort with the formula used on the paper.
 PHI = (1 + sqrt(5)) / 2 
 tax_effort = lambda tax_burden, unemployment, gdp_ppp: tax_burden / ((1 - tax_burden) * (1 - unemployment) * (gdp_ppp ** PHI))
 
@@ -142,22 +154,29 @@ elif mode == 'median':
     print('Median Values Results:')
 
 
+# Load and plot data from every country listed in 'countries_to_analyse'.
 for country_name in countries:
     x = []
     y = []
 
     for year in year_index:
+        #  Look for every element (tuple of two values, the year and country's tax effort at the time) 
+        # through the function defined earlier.
         tax_burden = find_element_by_year(countries[country_name]['tax_burden'], year)
         unemployment = find_element_by_year(countries[country_name]['unemployment'], year)
         gdp_ppp = find_element_by_year(countries[country_name]['gdp_ppp'], year)
 
+        # If any of the needed variables are missing (is None), then skip and leave blank.
         if None in {tax_burden, unemployment, gdp_ppp}:
             continue
 
+        #  Otherwise, append to the X-axis list of values the year's index and to the Y-axis
+        # list of value the tax effort multiplied by a constant (to avoid numbers of the 
+        # sort of 6.01e-07).
         x.append(year_index[year])
-
         y.append((10 ** 10) * tax_effort(tax_burden, unemployment, gdp_ppp))
 
+    #  Plot dots: X-axis is year's index and Y-axis is its tax effort then.
     plt.scatter(x, y, label=country_name)
 
     # Regression case.
@@ -209,6 +228,7 @@ for country_name in countries:
 
         print(f'  - {country_name}: {round(median, 2)}')
 
+# Style plotted figure and show on screen.
 plt.xlabel('Year (as index)')
 plt.ylabel('Tax Effort ')
 
