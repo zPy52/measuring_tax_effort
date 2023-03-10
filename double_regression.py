@@ -4,10 +4,16 @@ from typing import List, Tuple
 from math import sqrt
 from csv import DictReader
 
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
+# List of countries to study.
+exemplary_countries = ('Singapore', 'Ireland', 'Korea, Rep.')
+example_countries = ('Spain', 'France', 'Italy', 'United Kingdom', 'United States', 'Canada', 
+                     'Netherlands', 'Belgium', 'Portugal', 'Greece', 'Japan')
+
+# Helper functions to use later.
 PHI = (1 + sqrt(5)) / 2
 def tax_effort(tax_burden: float, unemployment: float, gdp_ppp_per_capita: int | float):
     for percentage, parameter_title in {(tax_burden, 'tax burden'), (unemployment, 'unemployment')}:
@@ -16,6 +22,7 @@ def tax_effort(tax_burden: float, unemployment: float, gdp_ppp_per_capita: int |
     
     return tax_burden / ((1 - tax_burden) * (1 - unemployment) * (gdp_ppp_per_capita ** PHI))
 
+# Helper dataclass for countries' general data.
 @dataclass
 class Country:
     country_name: str
@@ -31,6 +38,7 @@ class Country:
     def tax_effort(self) -> float:
         return tax_effort(self.tax_burden, self.unemployment, self.gdp_ppp_per_capita)
 
+# Helper dataclass for countries' real GDP per capita data.
 @dataclass
 class RealGDP:
     __slots__ = 'country_name', 'year', 'real_gdp'
@@ -213,9 +221,6 @@ for country_name in set(data.keys()):
         del real_gdp_history[country_name]
 
 ### USING THE DATA ###
-exemplary_countries = ('Singapore', 'Ireland', 'Korea, Rep.')
-example_countries = ('Spain', 'Belgium', 'France', 'Netherlands', 'United Kingdom')
-
 
 # Calculating lambdas.
 def core(example_country):
@@ -268,8 +273,7 @@ def core(example_country):
     try:
         interval_inverses = [1 / lambdas[country_name][1] for country_name in exemplary_countries]
     except ZeroDivisionError:
-        print(f'{example_country}:', None)
-        return
+        return None
 
     intervals = sorted([
         (
@@ -302,7 +306,6 @@ def core(example_country):
 
     FINAL_LAMBDA = sum([lambdas[exemplary_country][0] * weights[exemplary_country] for exemplary_country in exemplary_countries])
 
-
     x = np.array([
         instance.year - real_gdp_history[example_country][0].year for instance in real_gdp_history[example_country]
     ]).reshape(-1, 1)
@@ -314,11 +317,35 @@ def core(example_country):
 
     alpha_star = lambda x: FINAL_LAMBDA * approximate_alpha_function.coef_[0] * x + approximate_alpha_function.intercept_
 
-    print(f'{example_country}:', 
-          f'{round(real_gdp_history[example_country][-1].real_gdp, 2):,.2f}', 
-          '->', 
-          f'{round(alpha_star(len(real_gdp_history[example_country]) - 1), 2):,.2f}')
+    return {'country_name': example_country, 
+            'years': {country_name: lambdas[country_name][1] for country_name in exemplary_countries},
+            'weights': {country_name: f'{weights[country_name]:,.2%}' for country_name in weights},
+            'actual_real_gdp_per_capita': f'${real_gdp_history[example_country][-1].real_gdp:,.2f}', 
+            'estimation': f'${alpha_star(len(real_gdp_history[example_country]) - 1):,.2f}',
+            'tax_burden_relation': f'{tax_burden_goal / get_median([instance.tax_burden for instance in data[example_country]]):,.2%}'}
+
+wb = Workbook()
+
+ws = wb.active
+
+for index, example_country in enumerate(example_countries):
+    core_data = core(example_country)
+    ws.cell(row=index + 3, column=1).value = example_country
+    
+    if core_data is None:
+        ws.cell(row=index + 3, column=2).value = '---'
+        continue
+
+    ws.cell(row=index + 3, column=2).value = core_data['estimation']
+    ws.cell(row=index + 3, column=3).value = core_data['actual_real_gdp_per_capita']
+    ws.cell(row=index + 3, column=4).value = core_data['tax_burden_relation']
+
+    for i, exemplary_country in zip(range(0, len(core_data['years']) * 2, 2), core_data['years'].keys()):
+        ws.cell(row=1, column=5 + i).value = exemplary_country
+        ws.cell(row=1, column=6 + i).value = exemplary_country
+        
+        ws.cell(row=index + 3, column=5 + i).value = core_data['weights'][exemplary_country]
+        ws.cell(row=index + 3, column=6 + i).value = core_data['years'][exemplary_country]
 
 
-for example_country in example_countries:
-    core(example_country)
+#wb.save('table_y.2.1.xlsx')
